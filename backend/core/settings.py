@@ -57,6 +57,10 @@ TEMPLATES = [
 ROOT_URLCONF = "core.urls"
 WSGI_APPLICATION = "core.wsgi.application"
 
+RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_HOST and RENDER_HOST not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_HOST)
+    
 DATABASES = {
     "default": dj_database_url.parse(
         config("DATABASE_URL"),
