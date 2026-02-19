@@ -3,13 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
-const employmentOptions = [
-  { value: "selfemployed", label: "Self-employed" },
-  { value: "unemployed", label: "Unemployed" },
-  { value: "freelancer", label: "Freelancer" },
-  { value: "parttime", label: "Part-time" },
-  { value: "fulltime", label: "Full-time" },
-];
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -17,11 +10,9 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    employment_type: "fulltime",
     dob: "",
     address: "",
     phone: "",
-    expected_monthly_income: "",
   });
 
   const navigate = useNavigate();
@@ -29,9 +20,6 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // basic guard: no negative income
-    if (name === "expected_monthly_income" && value !== "" && Number(value) < 0)
-      return;
 
     setFormData((prev) => ({
       ...prev,
@@ -146,14 +134,6 @@ const Signup = () => {
 
                 {/* Employment + DOB */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Select
-                    label="Employment type"
-                    name="employment_type"
-                    value={formData.employment_type}
-                    onChange={handleChange}
-                    options={employmentOptions}
-                    required
-                  />
                   <Input
                     label="Date of birth"
                     type="date"
@@ -164,7 +144,7 @@ const Signup = () => {
                   />
                 </div>
 
-                {/* Phone + Income */}
+                {/* Phone */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input
                     label="Phone"
@@ -174,17 +154,6 @@ const Signup = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                  />
-                  <Input
-                    label="Expected Monthly Income (NPR)"
-                    type="number"
-                    name="expected_monthly_income"
-                    placeholder="45000"
-                    value={formData.expected_monthly_income}
-                    onChange={handleChange}
-                    required
-                    min="0"
-                    step="1"
                   />
                 </div>
 

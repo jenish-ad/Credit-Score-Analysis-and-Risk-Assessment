@@ -356,7 +356,7 @@ export default function Evaluation() {
                   <Input
                     value={inputId}
                     onChange={(e) => setInputId(e.target.value)}
-                    placeholder="e.g. APP-00021, 21, or username"
+                    placeholder="Username/ Application ID"
                   />
                   <Button
                     type="button"

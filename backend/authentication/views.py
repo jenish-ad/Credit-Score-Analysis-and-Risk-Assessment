@@ -26,29 +26,15 @@ def signup(request):
     if validation_error:
         return Response({"error": validation_error}, status=status.HTTP_400_BAD_REQUEST)
 
-    employment_type = request.data.get("employment_type")
-    expected_monthly_income = request.data.get("expected_monthly_income")
     address = request.data.get("address")
     dob = request.data.get("dob")
     phone = request.data.get("phone")
-
-    monthly_income = None
-    if expected_monthly_income not in (None, ""):
-        try:
-            monthly_income = float(expected_monthly_income)
-        except (TypeError, ValueError):
-            return Response({"error": "Expected monthly income must be a valid number."}, status=status.HTTP_400_BAD_REQUEST)
-
-        if monthly_income < 0:
-            return Response({"error": "Expected monthly income cannot be negative."}, status=status.HTTP_400_BAD_REQUEST)
 
     user_created = create_user(
         full_name,
         username,
         email,
         password,
-        employment_type=employment_type,
-        monthly_income=monthly_income,
         address=address,
         dob=dob or None,
         phone=phone,
