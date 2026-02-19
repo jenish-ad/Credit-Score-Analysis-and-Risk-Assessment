@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://credit-score-analysis-and-risk.onrender.com";
 const Login = () => {
   const [credentials, setCredentials] = useState({
     username: "",
@@ -22,7 +23,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://credit-score-analysis-and-risk.onrender.com/api/login/", {
+      const response = await fetch(`${API_BASE}/api/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +31,13 @@ const Login = () => {
         body: JSON.stringify(credentials),
       });
 
-      const data = await response.json();
+      const text = await response.text();
+      let data = {};
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = {};
+      }
 
       if (response.ok) {
         login({ token: data.token, username: data.username, is_admin: data.is_admin });
@@ -39,7 +46,7 @@ const Login = () => {
         : location.state?.from?.pathname || "/dashboard";
         navigate(redirectPath, { replace: true });
       } else {
-        alert("Login failed: " + (data.error || "Invalid credentials"));
+        alert("Login failed: " + (data.error || text || "Invalid credentials"));
       }
     } catch (error) {
       console.error("Login error:", error);
