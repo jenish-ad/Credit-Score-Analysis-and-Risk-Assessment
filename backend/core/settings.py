@@ -73,3 +73,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS").split(",")
+
+ADMIN_USERNAME = config("ADMIN_USERNAME", default="admin")
+ADMIN_PASSWORD = config("ADMIN_PASSWORD", default="admin")
